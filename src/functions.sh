@@ -5,7 +5,7 @@ function log_msg(){
 }
 
 function getBearerToken(){
-    FALCON_API_BEARER_TOKEN=$(curl -f \
+    FALCON_API_BEARER_TOKEN=$(curl -f $CS_APIURL \
     --data "client_id=${CS_CLIENT_ID}&client_secret=${CS_CLIENT_SECRET}" \
     --request POST \
     --silent \

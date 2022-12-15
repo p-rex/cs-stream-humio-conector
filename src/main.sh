@@ -3,10 +3,10 @@
 ## Set Environment Variables. Some are set by .env
 #export CS_CLIENT_ID=
 #export CS_CLIENT_SECRET=
-#export APIURL=https://api.crowdstrike.com
+#export CS_APIURL=https://api.crowdstrike.com
 #export APPID=
 #export INGEST_TOKEN=
-#HUMIO_URL=https://cloud.community.humio.com/api/v1/ingest/hec/raw
+#export HUMIO_URL=https://cloud.community.humio.com/api/v1/ingest/hec/raw
 export LOG_DIR=from_cs/
 export LOG_PATH=${LOG_DIR}stream.log
 export LOG_ROTATE_INTERVAL=60
