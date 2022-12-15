@@ -16,7 +16,7 @@ function getBearerToken(){
 
 
 function sendLogToHumio(){
-    curl -s -f https://cloud.community.humio.com/api/v1/ingest/hec/raw \
+    curl -s -f $HUMIO_URL \
     -X POST \
     -H "Content-Type: application/json; charset=utf-8" \
     -H "Authorization: Bearer ${1}" \
