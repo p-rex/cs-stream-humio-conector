@@ -3,5 +3,5 @@
 You can pull CrowdStrike logs via streaming api and put it to Humio.
 
 ## Usage
-Please use docker container. 
+Please use docker container.  
 [https://hub.docker.com/repository/registry-1.docker.io/prex55/cs-streaming-humio-connector/general)](https://hub.docker.com/repository/registry-1.docker.io/prex55/cs-streaming-humio-connector/general)
