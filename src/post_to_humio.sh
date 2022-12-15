@@ -60,7 +60,7 @@ do
                 log_msg "$0 - ${SEND_FILE} - finished"
         done
 
-        log_msg "$0 - $upload_tgt_cs_file was sent"
+        log_msg "$0 - $tgt_cs_log was sent"
 
 done
 
