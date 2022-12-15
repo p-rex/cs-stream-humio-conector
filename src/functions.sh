@@ -5,11 +5,11 @@ function log_msg(){
 }
 
 function getBearerToken(){
-    FALCON_API_BEARER_TOKEN=$(curl $CS_APIURL \
+    FALCON_API_BEARER_TOKEN=$(curl -f \
     --data "client_id=${CS_CLIENT_ID}&client_secret=${CS_CLIENT_SECRET}" \
     --request POST \
     --silent \
-    ${APIURL}/oauth2/token | jq -r '.access_token')
+    ${CS_APIURL}/oauth2/token | jq -r '.access_token')
 
     echo $FALCON_API_BEARER_TOKEN
 }

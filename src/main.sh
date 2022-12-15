@@ -29,7 +29,7 @@ FALCON_API_BEARER_TOKEN=`getBearerToken`
 
 ## Get streaming URL
 log_msg "getting streaming url"
-DATAFEED_URL="${APIURL}/sensors/entities/datafeed/v2?format=json&appId="${APPID}
+DATAFEED_URL="${CS_APIURL}/sensors/entities/datafeed/v2?format=json&appId="${APPID}
 RESP_JSON=$(curl -s -f -X GET -H "authorization: Bearer ${FALCON_API_BEARER_TOKEN}" $DATAFEED_URL )
 dataFeedURL=$(echo $RESP_JSON | jq -r '.resources[].dataFeedURL' )
 dataFeedToken=$(echo $RESP_JSON | jq -r '.resources[].sessionToken.token' )
