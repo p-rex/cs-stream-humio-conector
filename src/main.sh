@@ -12,6 +12,7 @@ export LOG_PATH=${LOG_DIR}stream.log
 export LOG_ROTATE_INTERVAL=60
 export STREAM_REFRESH_INTERVAL=1500 # 1500 sec == 25 min 
 export MAX_STREAM_LOG_FILE_CNT=100
+export OFFSET_FILE=offset/offset.txt
 
 
 ## Load functions
@@ -20,7 +21,12 @@ source functions.sh
 
 ## Initialize
 rm -f ${LOG_DIR}*
-
+if [ -e $OFFSET_FILE ]; then
+    last_offset_num=$(cat $OFFSET_FILE)
+    if [ -n "$last_offset_num" ]; then
+        query_offset="&offset=${last_offset_num}"
+    fi
+fi
 
 ## Get OAuth2 Token
 log_msg "getting oauth2 token"
@@ -29,20 +35,23 @@ FALCON_API_BEARER_TOKEN=`getBearerToken`
 
 ## Get streaming URL
 log_msg "getting streaming url"
-DATAFEED_URL="${CS_APIURL}/sensors/entities/datafeed/v2?format=json&appId="${APPID}
+DATAFEED_URL="${CS_APIURL}/sensors/entities/datafeed/v2?format=json&appId=${APPID}"
+
 RESP_JSON=$(curl -s -f -X GET -H "authorization: Bearer ${FALCON_API_BEARER_TOKEN}" $DATAFEED_URL )
-dataFeedURL=$(echo $RESP_JSON | jq -r '.resources[].dataFeedURL' )
-dataFeedToken=$(echo $RESP_JSON | jq -r '.resources[].sessionToken.token' )
-dataFeedExpiration=$(echo $RESP_JSON | jq -r '.resources[].sessionToken.expiration' )
-refresh_active_session_url=$(echo $RESP_JSON | jq -r '.resources[0].refreshActiveSessionURL' )
+export dataFeedURL=$(echo $RESP_JSON | jq -r '.resources[].dataFeedURL' )
+export dataFeedToken=$(echo $RESP_JSON | jq -r '.resources[].sessionToken.token' )
+export dataFeedExpiration=$(echo $RESP_JSON | jq -r '.resources[].sessionToken.expiration' )
+export refresh_active_session_url=$(echo $RESP_JSON | jq -r '.resources[0].refreshActiveSessionURL' )
+
 
 
 ### 3 processes run in parallel
 ## Process 1 - stream
 trap 'kill $(jobs -p)' EXIT
 log_msg "streaming start"
-curl -s -f -k -N -X GET $dataFeedURL -H "Accept: application/json" -H "Authorization: Token ${dataFeedToken}" | rotatelogs -n $MAX_STREAM_LOG_FILE_CNT -p ./rotate_msg.sh $LOG_PATH $LOG_ROTATE_INTERVAL &
+curl -s -f -k -N -X GET ${dataFeedURL}${query_offset} -H "Accept: application/json" -H "Authorization: Token ${dataFeedToken}" | rotatelogs -n $MAX_STREAM_LOG_FILE_CNT -p ./rotate_msg.sh $LOG_PATH $LOG_ROTATE_INTERVAL &
 #https://serverfault.com/questions/558957/rotatelogs-rotating-log-files-mid-log-entry
+
 
 
 ## Process 2 - post to humio

@@ -9,6 +9,7 @@ TO_HUMIO_FILE_BASE='to_humio/baselog'
 TO_HUMIO_FILE_SPLIT='to_humio/splitlog'
 SPLIT_LOG_LINE=1000
 SEND_LOG_INTERVAL=30
+OFFSET_FILE=workdir/offset.txt
 
 
 ## Load functions
@@ -37,12 +38,17 @@ do
         line_num=$(wc -l < $TO_HUMIO_FILE_BASE)
         log_msg "$0 - $tgt_cs_log line num == $line_num"
 
+
+
         ## if empty log
         if [ $line_num -eq 0 ]; then
 	        log_msg "$0 - Skipped -- $tgt_cs_log is empty."
 	        rm $TO_HUMIO_FILE_BASE
                 continue
         fi
+
+        # save offset for resume
+        saveOffset $TO_HUMIO_FILE_BASE $OFFSET_FILE
 
         # split log file because Humio doesn't receive large file 
         split -l $SPLIT_LOG_LINE $TO_HUMIO_FILE_BASE $TO_HUMIO_FILE_SPLIT

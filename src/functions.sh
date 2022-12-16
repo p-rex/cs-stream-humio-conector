@@ -22,3 +22,25 @@ function sendLogToHumio(){
     -H "Authorization: Bearer ${1}" \
     --data-binary @${2}
 }
+
+
+# --------------------------------------------------
+# Check the value is some number or not.
+# --------------------------------------------------
+isNumeric() {
+    expr "$1" + 1 >/dev/null 2>&1
+    if [ $? -ge 2 ]; then
+        echo false
+    else
+        echo true
+    fi
+}
+
+# $1 == log file, $2 == offset file
+function saveOffset(){
+    offset=$(tail -1 $1 | jq -r .metadata.offset)
+    bool=`isNumeric $offset`
+    if "$bool" ; then
+        echo $offset > $2
+    fi
+}
