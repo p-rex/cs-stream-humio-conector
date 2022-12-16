@@ -9,7 +9,7 @@ TO_HUMIO_FILE_BASE='to_humio/baselog'
 TO_HUMIO_FILE_SPLIT='to_humio/splitlog'
 SPLIT_LOG_LINE=1000
 SEND_LOG_INTERVAL=30
-OFFSET_FILE=workdir/offset.txt
+
 
 
 ## Load functions
