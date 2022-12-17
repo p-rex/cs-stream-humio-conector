@@ -16,7 +16,7 @@ function getBearerToken(){
 
 
 function sendLogToHumio(){
-    curl -s -f $HUMIO_URL \
+    curl -s -f $LS_URL \
     -X POST \
     -H "Content-Type: application/json; charset=utf-8" \
     -H "Authorization: Bearer ${1}" \
@@ -49,7 +49,7 @@ function saveOffset(){
 
 
 function setQueryOffset(){
-    if [ -n "$CS_STREAMING_OFFSET" ]; then
+    if [ -n "$CS_STREAM_OFFSET" ]; then
         query_offset="&offset=${CS_STREAMING_OFFSET}"
     fi
 

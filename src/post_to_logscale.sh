@@ -4,9 +4,9 @@
 
 
 ## Set Environment Variables
-TO_HUMIO_DIR='to_humio/'
-TO_HUMIO_FILE_BASE='to_humio/baselog'
-TO_HUMIO_FILE_SPLIT='to_humio/splitlog'
+TO_LOGSCALE_DIR=to_logscale/
+TO_LOGSCALE_FILE_BASE=${TO_LOGSCALE_DIR}baselog
+TO_LOGSCALE_FILE_SPLIT=${TO_LOGSCALE_DIR}splitlog
 SPLIT_LOG_LINE=1000
 SEND_LOG_INTERVAL=30
 
@@ -16,7 +16,7 @@ SEND_LOG_INTERVAL=30
 source functions.sh
 
 ## Initialize
-rm -f {$TO_HUMIO_DIR}*
+rm -f {$TO_LOGSCALE_DIR}*
 
 
 while true
@@ -33,9 +33,9 @@ do
         tgt_cs_log=${LOG_DIR}${tgt_cs_log}
 
         ## Culc line num
-        grep metadata $tgt_cs_log > $TO_HUMIO_FILE_BASE  # remove empty line
+        grep metadata $tgt_cs_log > $TO_LOGSCALE_FILE_BASE  # remove empty line
         rm $tgt_cs_log
-        line_num=$(wc -l < $TO_HUMIO_FILE_BASE)
+        line_num=$(wc -l < $TO_LOGSCALE_FILE_BASE)
         log_msg "$0 - $tgt_cs_log line num == $line_num"
 
 
@@ -43,24 +43,27 @@ do
         ## if empty log
         if [ $line_num -eq 0 ]; then
 	        log_msg "$0 - Skipped -- $tgt_cs_log is empty."
-	        rm $TO_HUMIO_FILE_BASE
+	        rm $TO_LOGSCALE_FILE_BASE
                 continue
         fi
 
-        # save offset for resume
-        saveOffset $TO_HUMIO_FILE_BASE $OFFSET_FILE
+
 
         # split log file because Humio doesn't receive large file 
-        split -l $SPLIT_LOG_LINE $TO_HUMIO_FILE_BASE $TO_HUMIO_FILE_SPLIT
-        rm $TO_HUMIO_FILE_BASE
+        split -l $SPLIT_LOG_LINE $TO_LOGSCALE_FILE_BASE $TO_LOGSCALE_FILE_SPLIT
+        rm $TO_LOGSCALE_FILE_BASE
 
         # send splitted logs
-        ls_array=($(ls $TO_HUMIO_DIR))
+        ls_array=($(ls $TO_LOGSCALE_DIR))
         for eachFile in ${ls_array[@]}; do
-                SEND_FILE=${TO_HUMIO_DIR}${eachFile}
+                SEND_FILE=${TO_LOGSCALE_DIR}${eachFile}
                 split_line_num=$(wc -l < $SEND_FILE)
                 log_msg "$0 - ${SEND_FILE} : line num == $split_line_num - start"
-                sendLogToHumio $INGEST_TOKEN $SEND_FILE
+                sendLogToHumio $LS_INGEST_TOKEN $SEND_FILE
+
+                # save offset for resume
+               saveOffset $SEND_FILE $OFFSET_FILE
+
                 rm $SEND_FILE
                 echo "" # for line break
                 log_msg "$0 - ${SEND_FILE} - finished"

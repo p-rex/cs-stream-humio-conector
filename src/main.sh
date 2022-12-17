@@ -4,9 +4,9 @@
 #export CS_CLIENT_ID=
 #export CS_CLIENT_SECRET=
 #export CS_APIURL=https://api.crowdstrike.com
-#export APPID=
-#export INGEST_TOKEN=
-#export HUMIO_URL=https://cloud.community.humio.com/api/v1/ingest/hec/raw
+#export STREAM_APPID=
+#export LS_INGEST_TOKEN=
+#export LS_URL=https://cloud.community.humio.com/api/v1/ingest/hec/raw
 export LOG_DIR=from_cs/
 export LOG_PATH=${LOG_DIR}stream.log
 export LOG_ROTATE_INTERVAL=60
@@ -33,7 +33,7 @@ FALCON_API_BEARER_TOKEN=`getBearerToken`
 
 ## Get streaming URL
 log_msg "getting streaming url"
-DATAFEED_URL="${CS_APIURL}/sensors/entities/datafeed/v2?format=json&appId=${APPID}"
+DATAFEED_URL="${CS_APIURL}/sensors/entities/datafeed/v2?format=json&appId=${STREAM_APPID}"
 
 RESP_JSON=$(curl -s -f -X GET -H "authorization: Bearer ${FALCON_API_BEARER_TOKEN}" $DATAFEED_URL )
 dataFeedURL=$(echo $RESP_JSON | jq -r '.resources[].dataFeedURL' )
@@ -52,8 +52,8 @@ curl -s -f -k -N -X GET ${dataFeedURL}${query_offset} -H "Accept: application/js
 
 
 
-## Process 2 - post to humio
-./post_to_humio.sh &
+## Process 2 - post to logscale
+./post_to_logscale.sh &
 
 
 ## Process 3 - refresh stream session. 
