@@ -46,3 +46,22 @@ function saveOffset(){
         log_msg "$offset is not numeric"
     fi
 }
+
+
+function setQueryOffset(){
+    if [ -n "$CS_STREAMING_OFFSET" ]; then
+        query_offset="&offset=${CS_STREAMING_OFFSET}"
+    fi
+
+    # if there is a offset file, override $query_offset.
+    if [ -e $OFFSET_FILE ]; then
+        last_offset_num=$(cat $OFFSET_FILE)
+
+        if [ -n "$last_offset_num" ]; then
+            next_offset_num=`expr $last_offset_num + 1`
+            query_offset="&offset=${next_offset_num}"
+        fi
+    fi
+
+    echo $query_offset
+}

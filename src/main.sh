@@ -22,18 +22,9 @@ source functions.sh
 ## Initialize
 rm -f ${LOG_DIR}*
 
-if [ -n "$CS_STREAMING_OFFSET" ]; then
-    query_offset="&offset=${CS_STREAMING_OFFSET}"
-fi
 
-# if there is a offset file, override $query_offset.
-if [ -e $OFFSET_FILE ]; then
-    last_offset_num=$(cat $OFFSET_FILE)
-    if [ -n "$last_offset_num" ]; then
-        next_offset_num=`expr $last_offset_num + 1`
-        query_offset="&offset=${next_offset_num}"
-    fi
-fi
+query_offset=`setQueryOffset`
+log_msg "Query offset - $query_offset "
 
 ## Get OAuth2 Token
 log_msg "getting oauth2 token"
@@ -45,10 +36,10 @@ log_msg "getting streaming url"
 DATAFEED_URL="${CS_APIURL}/sensors/entities/datafeed/v2?format=json&appId=${APPID}"
 
 RESP_JSON=$(curl -s -f -X GET -H "authorization: Bearer ${FALCON_API_BEARER_TOKEN}" $DATAFEED_URL )
-export dataFeedURL=$(echo $RESP_JSON | jq -r '.resources[].dataFeedURL' )
-export dataFeedToken=$(echo $RESP_JSON | jq -r '.resources[].sessionToken.token' )
-export dataFeedExpiration=$(echo $RESP_JSON | jq -r '.resources[].sessionToken.expiration' )
-export refresh_active_session_url=$(echo $RESP_JSON | jq -r '.resources[0].refreshActiveSessionURL' )
+dataFeedURL=$(echo $RESP_JSON | jq -r '.resources[].dataFeedURL' )
+dataFeedToken=$(echo $RESP_JSON | jq -r '.resources[].sessionToken.token' )
+dataFeedExpiration=$(echo $RESP_JSON | jq -r '.resources[].sessionToken.expiration' )
+refresh_active_session_url=$(echo $RESP_JSON | jq -r '.resources[0].refreshActiveSessionURL' )
 
 
 
