@@ -50,7 +50,7 @@ function saveOffset(){
 
 function setQueryOffset(){
     if [ -n "$CS_STREAM_OFFSET" ]; then
-        query_offset="&offset=${CS_STREAMING_OFFSET}"
+        query_offset="&offset=${CS_STREAM_OFFSET}"
     fi
 
     # if there is a offset file, override $query_offset.
