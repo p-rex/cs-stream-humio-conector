@@ -49,7 +49,7 @@ do
 
 
 
-        # split log file because Humio doesn't receive large file 
+        # split log file because LogScale doesn't receive large file 
         split -l $SPLIT_LOG_LINE $TO_LOGSCALE_FILE_BASE $TO_LOGSCALE_FILE_SPLIT
         rm $TO_LOGSCALE_FILE_BASE
 
@@ -59,7 +59,7 @@ do
                 SEND_FILE=${TO_LOGSCALE_DIR}${eachFile}
                 split_line_num=$(wc -l < $SEND_FILE)
                 log_msg "$0 - ${SEND_FILE} : line num == $split_line_num - start"
-                sendLogToHumio $LS_INGEST_TOKEN $SEND_FILE
+                sendLogToLogScale $LS_INGEST_TOKEN $SEND_FILE
 
                 # save offset for resume
                saveOffset $SEND_FILE $OFFSET_FILE

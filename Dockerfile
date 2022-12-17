@@ -5,12 +5,12 @@ RUN apt update && \
     apt install curl -y && \
     apt install jq -y  
 
-RUN mkdir -p /opt/cs-stream-humio-connector/from_cs && \
-    mkdir /opt/cs-stream-humio-connector/to_humio && \
-    mkdir /opt/cs-stream-humio-connector/offset
-COPY ./src/*.sh /opt/cs-stream-humio-connector/
-RUN chmod +x /opt/cs-stream-humio-connector/*.sh
+RUN mkdir -p /opt/cs-stream-logscale-connector/from_cs && \
+    mkdir /opt/cs-stream-logscale-connector/to_logscale && \
+    mkdir /opt/cs-stream-logscale-connector/offset
+COPY ./src/*.sh /opt/cs-stream-logscale-connector/
+RUN chmod +x /opt/cs-stream-logscale-connector/*.sh
 
-WORKDIR /opt/cs-stream-humio-connector
+WORKDIR /opt/cs-stream-logscale-connector
 
-ENTRYPOINT [ "/opt/cs-stream-humio-connector/process_keeper.sh" ]
+ENTRYPOINT [ "/opt/cs-stream-logscale-connector/process_keeper.sh" ]

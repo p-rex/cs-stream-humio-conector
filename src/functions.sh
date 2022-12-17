@@ -15,7 +15,7 @@ function getBearerToken(){
 }
 
 
-function sendLogToHumio(){
+function sendLogToLogScale(){
     curl -s -f $LS_URL \
     -X POST \
     -H "Content-Type: application/json; charset=utf-8" \
