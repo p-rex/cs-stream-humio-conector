@@ -30,17 +30,19 @@ function sendLogToHumio(){
 isNumeric() {
     expr "$1" + 1 >/dev/null 2>&1
     if [ $? -ge 2 ]; then
-        echo false
+        return 1
     else
-        echo true
+        return 0
     fi
 }
 
 # $1 == log file, $2 == offset file
 function saveOffset(){
     offset=$(tail -1 $1 | jq -r .metadata.offset)
-    bool=`isNumeric $offset`
-    if "$bool" ; then
+
+    if isNumeric $offset ; then
         echo $offset > $2
+    else
+        log_msg "$offset is not numeric"
     fi
 }
