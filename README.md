@@ -1,4 +1,4 @@
-# Crowdstrike Streaming API to LogScale Conector
+# Crowdstrike Streaming API to LogScale Connector
 
 You can pull CrowdStrike logs via streaming api and put them to LogScale community edition.
 
