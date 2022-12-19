@@ -6,6 +6,6 @@ You can pull CrowdStrike logs via streaming api and send them to LogScale commun
 Please use docker container [here](https://hub.docker.com/r/prex55/cs-stream-logscale-connector).
 
 ### License
-Copyright (c) 2021 Hideki Yamada
-Released under the MIT license
+Copyright (c) 2021 Hideki Yamada  
+Released under the MIT license  
 https://opensource.org/licenses/mit-license.php
