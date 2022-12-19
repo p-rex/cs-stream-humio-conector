@@ -8,4 +8,3 @@ Please use docker container [here](https://hub.docker.com/r/prex55/cs-stream-log
 ## License
 Copyright (c) 2022 Hideki Yamada  
 Released under the MIT license  
-https://opensource.org/licenses/mit-license.php
