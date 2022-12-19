@@ -57,7 +57,7 @@ curl -s -f -k -N -X GET ${dataFeedURL}${query_offset} -H "Accept: application/js
 
 
 ## Process 3 - refresh stream session. 
-# This loop is also responsible for keeping the container running.
+# This loop is also responsible for keeping this script running.
 # If this refresh fails, the "bash -e" option terminates this script, as a result all 3 processes stop.
 while true
 do
