@@ -5,10 +5,9 @@ function log_msg(){
 }
 
 function getBearerToken(){
-    FALCON_API_BEARER_TOKEN=$(curl -f \
+    FALCON_API_BEARER_TOKEN=$(curl -f -sS \
     --data "client_id=${CS_CLIENT_ID}&client_secret=${CS_CLIENT_SECRET}" \
     --request POST \
-    --silent \
     ${CS_APIURL}/oauth2/token | jq -r '.access_token')
 
     echo $FALCON_API_BEARER_TOKEN
@@ -16,7 +15,7 @@ function getBearerToken(){
 
 
 function sendLogToLogScale(){
-    curl -s -f $LS_URL \
+    curl -sS -f $LS_URL \
     -X POST \
     -H "Content-Type: application/json; charset=utf-8" \
     -H "Authorization: Bearer ${1}" \

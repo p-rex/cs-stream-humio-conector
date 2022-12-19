@@ -35,7 +35,7 @@ FALCON_API_BEARER_TOKEN=`getBearerToken`
 log_msg "getting streaming url"
 DATAFEED_URL="${CS_APIURL}/sensors/entities/datafeed/v2?format=json&appId=${STREAM_APPID}"
 
-RESP_JSON=$(curl -s -f -X GET -H "authorization: Bearer ${FALCON_API_BEARER_TOKEN}" $DATAFEED_URL )
+RESP_JSON=$(curl -sS -f -X GET -H "authorization: Bearer ${FALCON_API_BEARER_TOKEN}" $DATAFEED_URL )
 dataFeedURL=$(echo $RESP_JSON | jq -r '.resources[].dataFeedURL' )
 dataFeedToken=$(echo $RESP_JSON | jq -r '.resources[].sessionToken.token' )
 dataFeedExpiration=$(echo $RESP_JSON | jq -r '.resources[].sessionToken.expiration' )
@@ -65,7 +65,7 @@ do
     log_msg "reflesh active session"
     FALCON_API_BEARER_TOKEN=`getBearerToken`
     
-    curl -f -X POST \
+    curl -sS -f -X POST \
     $refresh_active_session_url \
     -H 'Content-Type: application/json' \
     -H 'Accept: application/json' \
