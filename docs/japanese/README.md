@@ -1,6 +1,6 @@
 ## はじめに
-CrowdStrike FalconのStreaming APIからイベントを取得し、LogScale Community Editionに送信するConnectorです。
-コンテナイメージで提供しております。以下からご利用ください。  
+このスクリプトはCrowdStrike FalconのStreaming APIからイベントを取得し、LogScale Community Editionに送信するConnectorです。
+このスクリプトを含んだコンテナイメージは以下で公開しています。  
 https://hub.docker.com/r/prex55/cs-stream-logscale-connector
 
 ## 用語説明
@@ -39,8 +39,8 @@ sequenceDiagram
 
 ## 使い方
 
-### LogScaleの準備
-1. 下記ページからLogScaleコミュニティエディションのアカウント作成します。
+### LogScaleでの準備
+1. 下記ページからLogScaleコミュニティエディションのアカウント作成します。  
 https://www.crowdstrike.com/products/observability/falcon-logscale/#get-started  
 
 Falcon LogScale Community Edition > Join Communityを選択してください。
@@ -52,9 +52,9 @@ Falcon LogScale Community Edition > Join Communityを選択してください。
 4. Ingest Tokenの取得
 
 
-### Falcon Streaming APIの準備
+### Falconコンソールでの準備
 以下の4点をご準備ください。
-- API Client keyとSecret 　
+- API Client keyとSecret  
 Support and resources > API clients and keys > Add new API client　にてAPIキーを作成します。  
 Event streams の Readにチェックを入れてください。作成されたClient IDと Secretをコピーしておきます。
 ![](2023-01-05-14-26-20.png)
@@ -69,7 +69,7 @@ EU-1: https://api.eu-1.crowdstrike.com
 
 
 ### 設定ファイルの準備
-以下の内容を環境に合わせて編集し、`config.env`として保存してください。
+以下の内容を環境を`config.env`として保存してください。
 ```
 CS_CLIENT_ID=XXXXX
 CS_CLIENT_SECRET=XXXXX
@@ -82,7 +82,7 @@ PROCESS_CHECK_INTERVAL=60
 # Option: You can specify an offset to start retrieving events from the specific offset.
 CS_STREAM_OFFSET=
 ```
-編集箇所は XXXXX 部分と、CS_APIURLだけで構いません。
+保存した`config.env`を環境に合わせて編集します。編集箇所は XXXXX 部分と、CS_APIURLだけで構いません。
 
 
 ### コンテナの起動
@@ -103,7 +103,7 @@ docker run -d --env-file ./config.env --name cslc prex55/cs-stream-logscale-conn
 ```
 
 ## 補足
-Streaming APIから一定時間ログが送信されない場合、Streaming APIの接続が切断されることがあります。(切断は環境に依存します。5分程度と切断されることもあります)。しかし、このコンテナは自動的に再接続しますので、ご安心ください。(再接続には最大で1時間程度かかる場合があります)。
+Streaming APIから一定時間ログが送信されない場合、Streaming APIの接続が切断されることがあります。(切断は環境に依存します。5分程度と切断されることもあります)。しかし、このコンテナは自動的に再接続しますのでご安心ください。(再接続には最大で1時間程度かかる場合があります)。
 
 
 ## トラブルシューティング
@@ -117,7 +117,8 @@ Mon Dec 19 00:19:31 UTC 2022 --- getting streaming url
 curl: (22) The requested URL returned error: 401 Unauthorized
 ```
 
-以下のエラーは、config.envのSTREAM_APPIDが他のアプリケーションと重複していることを示しています。TREAM_APPIDを変更してください。（任意の文字列が使用可能です）。他のアプリケーションが存在しない場合は、このエラーは一時的なです。30分ほど待てばこのエラーは解消します。
+以下のエラーは、config.envのSTREAM_APPIDが他のアプリケーションと重複していることを示しています。別の文字列に変更してください。（STREAM_APPIDには任意の文字列を使用可能です）。  
+他のアプリケーションが存在しない場合は、このエラーは一時的なものです。30分ほど待てば解消します。
 
 ```
 jq: error (at <stdin>:1): Cannot iterate over null (null)
