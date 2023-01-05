@@ -69,7 +69,7 @@ EU-1: https://api.eu-1.crowdstrike.com
 
 
 ### 設定ファイルの準備
-以下の内容を環境を`config.env`として保存してください。
+以下の内容を`config.env`として保存してください。
 ```
 CS_CLIENT_ID=XXXXX
 CS_CLIENT_SECRET=XXXXX
@@ -103,11 +103,14 @@ docker run -d --env-file ./config.env --name cslc prex55/cs-stream-logscale-conn
 ```
 
 ## 補足
-Streaming APIから一定時間ログが送信されない場合、Streaming APIの接続が切断されることがあります。(切断は環境に依存します。5分程度と切断されることもあります)。しかし、このコンテナは自動的に再接続しますのでご安心ください。(再接続には最大で1時間程度かかる場合があります)。
+- 長期間イベントが発生しない場合、Streaming APIの接続が切断されることがあります。(環境に依存します。5分程度で切断されることもあります)。  
+しかし、このコンテナは自動的に再接続しますのでご安心ください。(再接続には最大で1時間程度かかる場合があります)。
+
+- コンテナを停止、起動した場合も、以前取得したイベント以降から再取得が行われます。
 
 
 ## トラブルシューティング
-以下のようなログが出力される場合は、CS_CLIENT_ID または CS_CLIENT_SECRET が誤っています。
+- ログに`401 Unauthorized`が出力される場合は、CS_CLIENT_ID または CS_CLIENT_SECRET が誤っています。
 
 ```
 Mon Dec 19 00:19:30 UTC 2022 --- Query offset -
@@ -117,7 +120,7 @@ Mon Dec 19 00:19:31 UTC 2022 --- getting streaming url
 curl: (22) The requested URL returned error: 401 Unauthorized
 ```
 
-以下のエラーは、config.envのSTREAM_APPIDが他のアプリケーションと重複していることを示しています。別の文字列に変更してください。（STREAM_APPIDには任意の文字列を使用可能です）。  
+- 以下のエラーは、config.envのSTREAM_APPIDが他のStreamin APIを利用しているアプリケーションと重複していることを示しています。別の文字列に変更してください。（STREAM_APPIDには任意の文字列を使用可能です）。  
 他のアプリケーションが存在しない場合は、このエラーは一時的なものです。30分ほど待てば解消します。
 
 ```
