@@ -32,7 +32,7 @@ https://www.crowdstrike.com/products/observability/falcon-logscale/#get-started
 ### Falconコンソールでの準備
 1. API Client keyとSecret  
 Support and resources > API clients and keys > Add new API client　にてAPIキーを作成します。  
-Event streams の Readにチェックを入れてください。作成されたClient IDと Secretをコピーしておきます。
+ScopeはEvent streams の Readにチェックを入れてください。作成されたClient IDと Secretをコピーしておきます。
 ![](2023-01-05-14-26-20.png)
 
 
