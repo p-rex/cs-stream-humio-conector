@@ -1,11 +1,11 @@
 # はじめに
-このスクリプトはCrowdStrike FalconのStreaming APIからイベントを取得し、LogScale Community Editionに送信するConnectorです。
-このスクリプトを含んだコンテナイメージを以下で公開しています。  
+本ドキュメントは以下で公開しているコンテナイメージの説明資料です。  
 https://hub.docker.com/r/prex55/cs-stream-logscale-connector
 
-本手順ではコンテナイメージを用いてログを送信する方法を説明します。
+このコンテナを使用することで、CrowdStrike FalconのStreaming APIからイベントを取得し、LogScale Community Editionに送信することができます。
 
-### 用語説明
+
+# 用語説明
 - LogScale Community Edition  
 CrowdStrike LogScaleの無償版です。制限（ログ容量16GB/日、保存期間7日）がありますがどなたでもご利用頂けます。
 
@@ -30,18 +30,18 @@ https://www.crowdstrike.com/products/observability/falcon-logscale/#get-started
   
   
 ### Falconコンソールでの準備
-1. API Client keyとSecret  
+1. API Client keyとSecret の取得  
 Support and resources > API clients and keys > Add new API client　にてAPIキーを作成します。  
 ScopeはEvent streams の Readにチェックを入れてください。作成されたClient IDと Secretをコピーしておきます。
 ![](2023-01-05-14-26-20.png)
 
 
-2. CID  
+2. CIDの取得  
 Host setup and management > Sensor downloads にてCIDをコピーします。
 ![](2023-01-05-17-57-37.png)
 
 
-3. API Base URL  
+3. API Base URL の取得  
 ご利用の環境により異なります。  
 US-1: https://api.crowdstrike.com  
 US-2: https://api.us-2.crowdstrike.com  
@@ -69,7 +69,7 @@ CS_STREAM_OFFSET=
 
 構文
 ```
-docker run -d --env-file [config.env path] --name cslc prex55/cs-stream-logscale-connector:[tag]
+docker run -d --env-file [config.envのパス] --name cslc prex55/cs-stream-logscale-connector:[tag]
 ```
 
 実行例
@@ -78,13 +78,13 @@ docker run -d --env-file ./config.env --name cslc prex55/cs-stream-logscale-conn
 ```
 
 
-### 稼働状況の確認コマンド
+### ログ表示コマンド
 ```
  docker logs -f cslc
 ```
 
-## 補足
-- コンテナを再起動した場合も、前回取得したイベント以降から取得を開始します。
+### 補足
+- コンテナを再起動した場合、前回取得したイベント以降から取得を開始します。
 
 - 長期間イベントが発生しない場合、Streaming APIの接続が切断されることがあります。(環境に依存します。5分程度で切断されることもあります)。  
 しかしご安心ください。このコンテナは自動的に再接続します。(再接続には最大で1時間程度かかる場合があります)。
@@ -92,7 +92,7 @@ docker run -d --env-file ./config.env --name cslc prex55/cs-stream-logscale-conn
 
 
 
-## トラブルシューティング
+# トラブルシューティング
 - ログに`401 Unauthorized`が出力される場合は、CS_CLIENT_ID または CS_CLIENT_SECRET に誤りがあります。config.envを修正し、コンテナを起動し直してください。
 
 ```
@@ -103,15 +103,15 @@ Mon Dec 19 00:19:31 UTC 2022 --- getting streaming url
 curl: (22) The requested URL returned error: 401 Unauthorized
 ```
 
-- 以下のエラーは、config.envのSTREAM_APPIDが他のStreamin APIを利用しているアプリケーションと重複していることを示しています。別の文字列に変更してください。（STREAM_APPIDには任意の文字列を使用可能です）。  
-他のアプリケーションが存在しない場合は、このエラーは一時的なものです。30分ほど待てば解消します。
+- 以下のエラーは、Connectorが複数起動している場合に発生します。一方のConnectorを停止するか、もしくは複数起動させたい場合はconfig.envのSTREAM_APPIDを別の文字列に変更してください。（STREAM_APPIDには任意の文字列を使用可能です）。  
+Connectorが複数起動していない場合は、このエラーは一時的なものと考えられます。30分ほど待てば解消します。
 
 ```
 jq: error (at <stdin>:1): Cannot iterate over null (null)
 ```
 
 
-## 処理フロー
+# 参考: 処理フロー
 ```mermaid
 sequenceDiagram
     participant Falcon
