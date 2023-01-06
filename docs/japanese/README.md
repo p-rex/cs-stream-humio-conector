@@ -18,8 +18,8 @@ Falconのイベントを取得するAPIの一つです。検知したAlertや管
 # 使い方
 
 ### LogScaleでの準備
-1. [こちら](https://www.crowdstrike.com/products/observability/falcon-logscale/#get-started)にアクセスし、Falcon LogScale Community Edition > Join Community にてLogScale Community Edtionのアカウントを作成します。  
-   
+1. LogScale Community Editionのアカウント作成  
+[こちら](https://www.crowdstrike.com/products/observability/falcon-logscale/#get-started)にアクセスし、Falcon LogScale Community Edition > Join Community にてLogScale Community Edtionのアカウントを作成します。  
 ※アカウント作成には1〜2日かかります。
 
 2. レポジトリの作成
@@ -32,9 +32,9 @@ Falconのイベントを取得するAPIの一つです。検知したAlertや管
 ### Falconコンソールでの準備
 1. API Client keyとSecret の取得  
 Support and resources > API clients and keys > Add new API client　にてAPIキーを作成します。  
-ScopeはEvent streams の Readにチェックを入れてください。作成されたClient IDと Secretをコピーしておきます。
+ScopeはEvent streams の Readにチェックを入れてください。
 ![](2023-01-05-14-26-20.png)
-
+作成されたClient IDと Secretをコピーしておきます。
 
 2. CIDの取得  
 Host setup and management > Sensor downloads にてCIDをコピーします。
