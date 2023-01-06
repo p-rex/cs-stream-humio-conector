@@ -19,14 +19,14 @@ Falconのイベントを取得するAPIの一つです。検知したAlertや管
 
 ### LogScaleでの準備
 1. LogScale Community Editionのアカウント作成  
-[こちら](https://www.crowdstrike.com/products/observability/falcon-logscale/#get-started)にアクセスし、Falcon LogScale Community Edition > Join Community にてLogScale Community Edtionのアカウントを作成します。  
+[こちら](https://www.crowdstrike.com/products/observability/falcon-logscale/#get-started)にアクセスし、Falcon LogScale Community Edition > Join Community にてアカウントを作成します。  
 ※アカウント作成には1〜2日かかります。
 
-2. レポジトリの作成
+1. レポジトリの作成
 
-3. CrowdStrike siem-connectorのインストール
+2. CrowdStrike siem-connectorのインストール
 
-4. Ingest Tokenの取得
+3. Ingest Tokenの取得
   
   
 ### Falconコンソールでの準備
@@ -84,7 +84,9 @@ docker run -d --env-file ./config.env --name cslc prex55/cs-stream-logscale-conn
 ```
 
 ### 補足
-- コンテナ内部にどこまでイベントを取得したか記録しているため、コンテナを再起動した場合、前回取得したイベント以降から取得を再開します。コンテナを再作成すると、その記録が無くなるため、イベントが重複する可能性があります。
+- コンテナ内部にどこまでイベント取得したかを記録しているため、コンテナを再起動した場合、前回取得したイベント以降から取得を再開します。コンテナを再作成すると、その記録が無くなるため、イベントが重複する可能性があります。
+
+- LogScale Community Editionのログ保管期間は1週間です。そのため、古いログを読み込ませてもLogScale上に表示されません。このコンテナはFalconに蓄積された古いログから取得を開始するため、LogScaleコンソール上に表示されるようになるまで10分程度かかることがあります。
 
 - 長期間イベントが発生しない場合、Streaming APIの接続が切断されることがあります。(環境に依存します。5分程度で切断されることもあります)。  
 しかしご安心ください。このコンテナは自動的に再接続します。再接続には最大で1時間程度かかる場合があります。
