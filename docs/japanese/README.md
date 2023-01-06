@@ -84,7 +84,7 @@ docker run -d --env-file ./config.env --name cslc prex55/cs-stream-logscale-conn
 ```
 
 ### 補足
-- コンテナを再起動した場合、前回取得したイベント以降から取得を開始します。
+- コンテナを再起動した場合、前回取得したイベント以降から取得を開始します。これはコンテナ内部にどこまでログを取得したかを記録しているためです。コンテナを再作成した場合は、その記録が無くなるため、以前と同じログを再取得します。
 
 - 長期間イベントが発生しない場合、Streaming APIの接続が切断されることがあります。(環境に依存します。5分程度で切断されることもあります)。  
 しかしご安心ください。このコンテナは自動的に再接続します。(再接続には最大で1時間程度かかる場合があります)。
@@ -103,8 +103,8 @@ Mon Dec 19 00:19:31 UTC 2022 --- getting streaming url
 curl: (22) The requested URL returned error: 401 Unauthorized
 ```
 
-- 以下のエラーは、Connectorが複数起動している場合に発生します。一方のConnectorを停止するか、もしくは複数起動させたい場合はconfig.envのSTREAM_APPIDを別の文字列に変更してください。（STREAM_APPIDには任意の文字列を使用可能です）。  
-Connectorが複数起動していない場合は、このエラーは一時的なものと考えられます。30分ほど待てば解消します。
+- 以下のエラーは、Connectorが複数起動している場合に発生します。一方のConnectorを停止してください。もし複数起動させたい場合はconfig.envのSTREAM_APPIDをConnector毎にユニークな文字列に変更してください。（STREAM_APPIDには任意の文字列を使用可能です）。  
+Connectorが複数起動していないにも関わらずこのエラーが出力される場合は、一時的なものと考えられます。30分ほど待てば解消します。
 
 ```
 jq: error (at <stdin>:1): Cannot iterate over null (null)
@@ -117,7 +117,6 @@ sequenceDiagram
     participant Falcon
     participant Connector
     participant LogScale
-
 
     Connector ->> Falcon: ストリーミングコネクション（常時接続）
     Activate Falcon
