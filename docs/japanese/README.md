@@ -1,5 +1,5 @@
 # はじめに
-本ドキュメントは以下で公開しているコンテナイメージの説明資料です。  
+本ドキュメントは以下で公開しているコンテナイメージの日本語説明資料です。  
 https://hub.docker.com/r/prex55/cs-stream-logscale-connector
 
 このコンテナを使用することで、CrowdStrike FalconのStreaming APIからイベントを取得し、LogScale Community Editionに送信することができます。
@@ -10,7 +10,7 @@ https://hub.docker.com/r/prex55/cs-stream-logscale-connector
 CrowdStrike LogScaleの無償版です。制限（ログ容量16GB/日、保存期間7日）がありますがどなたでもご利用頂けます。
 
 - Streaming API  
-Falconのイベントを取得するAPIです。検知したイベントや管理者の操作ログなどが取得できます。
+Falconのイベントを取得するAPIの一つです。検知したAlertや管理者の操作ログなどが取得できます。
 取得できるイベントの詳細はFalconオンラインマニュアルの `Streaming API Event Dictionary` をご覧ください。
 
 
@@ -18,8 +18,8 @@ Falconのイベントを取得するAPIです。検知したイベントや管�
 # 使い方
 
 ### LogScaleでの準備
-1. 下記ページの Falcon LogScale Community Edition > Join Community にてLogScale Community Edtionのアカウント作成します。  
-https://www.crowdstrike.com/products/observability/falcon-logscale/#get-started    
+1. [こちら](https://www.crowdstrike.com/products/observability/falcon-logscale/#get-started)にアクセスし、Falcon LogScale Community Edition > Join Community にてLogScale Community Edtionのアカウントを作成します。  
+   
 ※アカウント作成には1〜2日かかります。
 
 2. レポジトリの作成
@@ -84,10 +84,10 @@ docker run -d --env-file ./config.env --name cslc prex55/cs-stream-logscale-conn
 ```
 
 ### 補足
-- コンテナを再起動した場合、前回取得したイベント以降から取得を開始します。これはコンテナ内部にどこまでログを取得したかを記録しているためです。コンテナを再作成した場合は、その記録が無くなるため、以前と同じログを再取得します。
+- コンテナ内部にどこまでイベントを取得したか記録しているため、コンテナを再起動した場合、前回取得したイベント以降から取得を再開します。コンテナを再作成すると、その記録が無くなるため、イベントが重複する可能性があります。
 
 - 長期間イベントが発生しない場合、Streaming APIの接続が切断されることがあります。(環境に依存します。5分程度で切断されることもあります)。  
-しかしご安心ください。このコンテナは自動的に再接続します。(再接続には最大で1時間程度かかる場合があります)。
+しかしご安心ください。このコンテナは自動的に再接続します。再接続には最大で1時間程度かかる場合があります。
 
 
 
@@ -103,7 +103,7 @@ Mon Dec 19 00:19:31 UTC 2022 --- getting streaming url
 curl: (22) The requested URL returned error: 401 Unauthorized
 ```
 
-- 以下のエラーは、Connectorが複数起動している場合に発生します。一方のConnectorを停止してください。もし複数起動させたい場合はconfig.envのSTREAM_APPIDをConnector毎にユニークな文字列に変更してください。（STREAM_APPIDには任意の文字列を使用可能です）。  
+- 以下のエラーは、Connectorが複数起動している場合に発生します。他のConnectorを停止してください。もし複数起動させたい場合はconfig.envのSTREAM_APPIDをConnector毎にユニークな文字列に変更してください。（STREAM_APPIDには任意の文字列を使用可能です）。  
 Connectorが複数起動していないにも関わらずこのエラーが出力される場合は、一時的なものと考えられます。30分ほど待てば解消します。
 
 ```
