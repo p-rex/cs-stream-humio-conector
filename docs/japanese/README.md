@@ -28,7 +28,6 @@ Repository and ViewsにてAdd newをクリックします。
 Repositoryを選択します。
 ![](2023-01-10-12-06-28.png)  
 任意のRepository名を入力し、Create repositoryをクリックします。
-![](2023-01-10-11-43-50.png)
 ![](2023-01-10-12-10-09.png)
 
 1. CrowdStrike siem-connectorのインストール  
