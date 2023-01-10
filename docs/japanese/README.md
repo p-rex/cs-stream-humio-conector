@@ -22,27 +22,40 @@ Falconのイベントを取得するAPIの一つです。検知したAlertや管
 [こちら](https://www.crowdstrike.com/products/observability/falcon-logscale/#get-started)にアクセスし、Falcon LogScale Community Edition > Join Community にてアカウントを作成します。  
 ※アカウント作成には1〜2日かかります。
 
-1. レポジトリの作成
+1. レポジトリの作成  
+Add newにて新規レポジトリを作成します。
+![](2023-01-10-11-41-46.png)
+Repositoryを選択します。
+![](2023-01-10-11-42-41.png)
+任意のRepository名を入力し、Create repositoryをクリックします。
+![](2023-01-10-11-43-50.png)
 
-2. CrowdStrike siem-connectorのインストール
+1. CrowdStrike siem-connectorのインストール  
+   Settings > Packages > Marketplace にて `crowdstrike/siem-connector` を選択しInstall します。
+![](2023-01-10-11-46-11.png)
 
-3. Ingest Tokenの取得
-  
-  
+1. Ingest Tokenの取得  
+   Settings > Ingest > Ingets tokens にて Add tokenをクリックし以下のように設定します。  
+   Token Name: 任意の名前  
+   Assigned partsers: siem-connector
+  ![](2023-01-10-11-49-46.png)
+  作成されたTokenのアイコンをクリックすると、Ingest Tokenの文字列が表示されますので、**コピー**しておきます。
+  ![](2023-01-10-11-53-34.png)
+
 ### Falconコンソールでの準備
 1. API Client keyとSecret の取得  
 Support and resources > API clients and keys > Add new API client　にてAPIキーを作成します。  
 ScopeはEvent streams の Readにチェックを入れてください。
 ![](2023-01-05-14-26-20.png)
-作成されたClient IDと Secretをコピーしておきます。
+作成されたClient IDと Secretを**コピー**しておきます。
 
 2. CIDの取得  
-Host setup and management > Sensor downloads にてCIDをコピーします。
+Host setup and management > Sensor downloads にてCIDを**コピー**します。
 ![](2023-01-05-17-57-37.png)
 
 
 3. API Base URL の取得  
-ご利用の環境により異なります。  
+リージョンにより異なります。各リージョンのURLは以下になります。  
 US-1: https://api.crowdstrike.com  
 US-2: https://api.us-2.crowdstrike.com  
 EU-1: https://api.eu-1.crowdstrike.com  
