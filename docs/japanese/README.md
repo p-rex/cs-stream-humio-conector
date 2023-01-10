@@ -26,7 +26,7 @@ Falconのイベントを取得するAPIの一つです。検知したAlertや管
 Repository and ViewsにてAdd newをクリックします。
 ![](2023-01-10-11-41-46.png)
 Repositoryを選択します。
-![](2023-01-10-12-06-28.png)
+![](2023-01-10-12-06-28.png)  
 任意のRepository名を入力し、Create repositoryをクリックします。
 ![](2023-01-10-11-43-50.png)
 
