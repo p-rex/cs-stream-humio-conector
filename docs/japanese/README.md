@@ -37,10 +37,10 @@ Repositoryを選択します。
 1. Ingest Tokenの取得  
    Settings > Ingest > Ingets tokens にて Add tokenをクリックし以下のように設定します。  
    Token Name: 任意の名前  
-   Assigned partsers: siem-connector
+   Assigned parsers: siem-connector
   ![](2023-01-10-11-49-46.png)
   作成されたTokenのアイコンをクリックすると、Ingest Tokenの文字列が表示されますので、**コピー**しておきます。
-  ![](2023-01-10-11-53-34.png)
+  ![](2023-01-10-12-03-00.png)
 
 ### Falconコンソールでの準備
 1. API Client keyとSecret の取得  
