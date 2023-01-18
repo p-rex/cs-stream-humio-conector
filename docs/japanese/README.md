@@ -19,7 +19,7 @@ Falconのイベントを取得するAPIの一つです。検知したAlertや管
 
 ### LogScaleでの準備
 1. LogScale Community Editionのアカウント作成  
-[こちら](https://www.crowdstrike.com/products/observability/falcon-logscale/#get-started)にアクセスし、Falcon LogScale Community Edition > Join Community にてアカウントを作成します。  
+[こちら](https://www.crowdstrike.com/products/observability/falcon-logscale/#get-started)にアクセスし、Falcon LogScale Community Edition > Access now にてアカウントを作成します。  
 ※アカウント作成には1〜2日かかります。
 
 1. レポジトリの作成  
