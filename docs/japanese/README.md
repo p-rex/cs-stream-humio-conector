@@ -40,7 +40,7 @@ Repositoryを選択します。
    Assigned parsers: siem-connector
   ![](2023-01-10-11-49-46.png)
   作成されたTokenのアイコンをクリックすると、Ingest Tokenの文字列が表示されますので、**コピー**しておきます。
-  ![](2023-01-10-12-03-00.png)
+  ![](2023-02-02-10-08-36.png)
 
 ### Falconコンソールでの準備
 1. API Client keyとSecret の取得  
