@@ -87,7 +87,7 @@ docker run -d --env-file [config.envのパス] --name cslc prex55/cs-stream-logs
 
 実行例
 ```
-docker run -d --env-file ./config.env --name cslc prex55/cs-stream-logscale-connector:1.1
+docker run -d --env-file ./config.env --name cslc prex55/cs-stream-logscale-connector:2.1
 ```
 
 
