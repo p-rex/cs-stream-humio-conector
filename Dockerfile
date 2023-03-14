@@ -5,10 +5,14 @@ RUN apt update && \
     apt install curl -y && \
     apt install jq -y  
 
+
 RUN mkdir -p /opt/cs-stream-logscale-connector/from_cs && \
     mkdir /opt/cs-stream-logscale-connector/to_logscale && \
     mkdir /opt/cs-stream-logscale-connector/offset
-COPY ./src/*.sh /opt/cs-stream-logscale-connector/
+
+RUN chown -R nobody /opt/cs-stream-logscale-connector
+USER nobody
+COPY --chown=nobody:nogroup ./src/*.sh /opt/cs-stream-logscale-connector/
 RUN chmod +x /opt/cs-stream-logscale-connector/*.sh
 
 WORKDIR /opt/cs-stream-logscale-connector
